@@ -6,10 +6,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('home'),
+      body: SafeArea(
+        child: Container(
+          child: Text("홈페이지"),
+        ),
       ),
-      body: Container(),
     );
   }
 }

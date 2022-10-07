@@ -84,7 +84,7 @@ makeTextStyle(double fontSize, Color? fontColor,
     fontSize: fontSize,
     fontWeight: weight,
     color: fontColor ?? AppColors.black,
-    fontFamily: 'NotoSansKR',
+    fontFamily: 'Spoqa',
     height: height,
   );
 }

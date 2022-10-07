@@ -1,4 +1,4 @@
-class Routes{
+class Routes {
   static const String splash = '/';
   static const String home = '/home';
   static const String login = '/login';
@@ -9,5 +9,5 @@ class Routes{
   static const String step2 = '/step2';
   static const String step3 = '/step3';
   static const String step4 = '/step4';
-
+  static const String spm = '/spm_screen';
 }

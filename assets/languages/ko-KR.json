@@ -54,12 +54,15 @@
 
   "new_analyze": "분석 요청",
   "post": "전송",
+  "next_step" : "다음 단계",
+  "before_step" : "이전 단계",
   "soil_area_place": "재배 면적 입력 (단위 : m",
   "analyze_step_1" : "경지 선택",
   "analyze_step_2" : "재배 면적",
   "analyze_step_3" : "재배 작물",
   "analyze_step_4" : "키트 인식",
-  "analyze_step_5" : "카메라 실행",
+  "analyze_step_4_0" : "분광센서 측정하기",
+  "analyze_step_4_1" : "카메라 실행",
 
   "elements_summary" : "측정 결과",
 
@@ -131,5 +134,13 @@
   "data_analyze": "결과 상세 분석",
   "recommend": "비료 추천",
   "data_details": "데이터 상세",
-  "fertilizer_optimization": "비료 추천받기"
+  "fertilizer_optimization": "비료 추천받기",
+
+  "lamp_state_on" : "전구 켜짐",
+  "lamp_state_off" : "전구 꺼짐",
+  "measure_all" : "전체 측정하기",
+  "measure_one" : "측정하기",
+  "measure_complete" : "측정 완료",
+  "measure_ready" : "준비 중",
+  "get_spm_report" : "진단하기"
 }
