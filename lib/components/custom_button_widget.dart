@@ -6,22 +6,23 @@ import '../constants/constants.dart';
 import '../utils/app_utils.dart';
 
 class CustomButtonWidget extends StatelessWidget {
-  const CustomButtonWidget(
-       {
+  const CustomButtonWidget({
     Key? key,
     this.icon,
+    this.image,
     required this.onPressed,
     required this.title,
-
   }) : super(key: key);
 
   final VoidCallback onPressed;
   final String title;
+  final String? image;
   final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
+
       constraints: BoxConstraints(maxWidth: 300, minWidth: 200),
       onPressed: onPressed,
       shape: RoundedRectangleBorder(
@@ -37,10 +38,7 @@ class CustomButtonWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          (icon != null)?Icon(
-            icon,
-            color: Colors.white,
-          ):Container(),
+          iconWidget(),
           SizedBox(
             width: 5,
           ),
@@ -58,5 +56,22 @@ class CustomButtonWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  iconWidget() {
+    if (image == null && icon == null) {
+      return Container();
+    } else if (image == null && icon != null) {
+      return Icon(
+        icon,
+        color: Colors.white,
+      );
+    } else if (image != null && icon == null) {
+      return ImageIcon(
+        AssetImage('assets/images/$image.png',
+        ),
+        color: Colors.white,
+      );
+    }
   }
 }

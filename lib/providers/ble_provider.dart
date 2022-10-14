@@ -8,7 +8,7 @@ class BleProvider with ChangeNotifier {
   List<BluetoothDiscoveryResult> bleList =
   List<BluetoothDiscoveryResult>.empty(growable: true);
   BluetoothDevice? selectDevice;
-
+  bool bleConnected = false;
   BluetoothConnection? connection;
   void scanBle() {
     serial.startDiscovery().listen((event) {

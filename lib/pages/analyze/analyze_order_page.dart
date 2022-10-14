@@ -1,10 +1,13 @@
 import 'package:argo_spm/components/custom_button_widget.dart';
+import 'package:argo_spm/pages/spm_screen/spm_screen.dart';
+import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:charcode/html_entity.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import '../../constants/constants.dart';
 import '../../routes/routes.dart';
 import '../../utils/app_utils.dart';
@@ -65,6 +68,7 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    var ble = Provider.of<BleProvider>(context);
     return GestureDetector(
       onTap: () {
         _currentFocus = FocusScope.of(context);
@@ -112,9 +116,7 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
             currentStep: _currentStep,
             physics: ClampingScrollPhysics(),
             controlsBuilder: (context, details) {
-              if (_currentStep == 3) {
-                return Container();
-              } else if (_currentStep == 0) {
+              if (_currentStep == 0) {
                 return Row(
                   children: [
                     ElevatedButton(
@@ -123,6 +125,8 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                     ),
                   ],
                 );
+              } else if (_currentStep == 4) {
+                return Container();
               } else {
                 return Row(
                   children: [
@@ -161,10 +165,14 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                     saveData.soilArea =
                         int.parse(_areaController.value.text.trim());
                     _currentStep = _currentStep + 1;
-                  } else if (_currentStep == 3) {
+                  }
+                  // else if (_currentStep == 3) {
+                  //   _sendData();
+                  // }
+                  else if (_currentStep == 4) {
                     _sendData();
                   } else {
-                    if (_currentStep < 3) {
+                    if (_currentStep < 4) {
                       _currentStep += 1;
                     } else {
                       _currentStep = 0;
@@ -330,7 +338,11 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                               fontWeight: FontWeight.bold,
                             )),
                         radioButtonValue: (value) {
-                          saveData.dataCrop = value.toString();
+                          if (value == null || value == '') {
+                            saveData.dataCrop = 'crop_strawberry';
+                          } else {
+                            saveData.dataCrop = value.toString();
+                          }
                         },
                       ),
                     ],
@@ -341,16 +353,75 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                       ? StepState.complete
                       : StepState.disabled,
                   title: Text(
-                    'Step 4. ' + 'analyze_step_4'.tr(),
+                    'Step 4. ' + 'analyze_step_4_1'.tr(),
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  content: CustomButtonWidget(
-                    title: 'analyze_step_4_0',
-                    icon: Icons.camera,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(Routes.spm);
-                    },
+                  content: Column(
+                    children: [
+                      CustomButtonWidget(
+                        title: 'analyze_step_4_1',
+                        icon: Icons.lightbulb_rounded,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(Routes.spm);
+                        },
+                      ),
+                    ],
                   )),
+              Step(
+                isActive: _currentStep >= 0,
+                state:
+                    _currentStep >= 4 ? StepState.complete : StepState.disabled,
+                title: Text(
+                  'Step 5. ' + 'analyze_step_5'.tr(),
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                content: Column(
+                  children: [
+                    CustomButtonWidget(
+                      title: 'analyze_step_5',
+                      image: 'icon_measure',
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => SpmScreen(),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              // Step(
+              //     isActive: _currentStep >= 0,
+              //     state: _currentStep >= 5
+              //         ? StepState.complete
+              //         : StepState.disabled,
+              //     title: Text(
+              //       'Step 4-3. ' + 'analyze_step_4_3'.tr(),
+              //       style: Theme.of(context).textTheme.headline6,
+              //     ),
+              //     content: CustomButtonWidget(
+              //       title: 'analyze_step_4_3',
+              //       icon: Icons.camera,
+              //       onPressed: () {
+              //         Navigator.of(context).pushNamed(Routes.spm);
+              //       },
+              //     )),
+              // Step(
+              //   isActive: _currentStep >= 0,
+              //   state:
+              //       _currentStep >= 6 ? StepState.complete : StepState.disabled,
+              //   title: Text(
+              //     'Step 4-4. ' + 'analyze_step_4_4'.tr(),
+              //     style: Theme.of(context).textTheme.headline6,
+              //   ),
+              //   content: CustomButtonWidget(
+              //     title: 'analyze_step_4_4',
+              //     icon: Icons.camera,
+              //     onPressed: () {
+              //       Navigator.of(context).pushNamed(Routes.spm);
+              //     },
+              //   ),
+              // ),
             ],
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:argo_spm/providers/analyze_provider.dart';
 import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:argo_spm/providers/bottom_app_bar_provider.dart';
 import 'package:argo_spm/providers/share_provider.dart';
+import 'package:argo_spm/providers/spm_provider.dart';
 import 'package:argo_spm/routes/route_generator.dart';
 import 'package:argo_spm/routes/routes.dart';
 import 'package:argo_spm/utils/themes/app_theme.dart';
@@ -29,6 +30,9 @@ Future<void> main() async {
         ChangeNotifierProvider<ShareProvider>(
           create: (context) => ShareProvider(),
         ),
+        ChangeNotifierProvider<SpmProvider>(
+          create: (context) => SpmProvider(),
+        ),
       ],
       child: EasyLocalization(
         supportedLocales: [
@@ -50,7 +54,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(805.3, 384.0),
+        designSize: const Size(1158, 800),
         minTextAdapt: true,
         splitScreenMode: true,
       builder: (context,child) {
