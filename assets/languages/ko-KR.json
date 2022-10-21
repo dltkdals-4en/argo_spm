@@ -62,7 +62,7 @@
   "analyze_step_3" : "재배 작물",
   "analyze_step_4" : "키트 인식",
   "analyze_step_4_0" : "카메라 실행",
-  "analyze_step_4_1" : "기본 세팅하기",
+  "analyze_step_4_1" : "램프 켜기",
   "analyze_step_4_2" : "1단계 시료 측정하기",
   "analyze_step_4_3" : "2단계 시료 측정하기",
   "analyze_step_4_4" : "3단계 시료 측정하기",
@@ -140,11 +140,14 @@
   "data_details": "데이터 상세",
   "fertilizer_optimization": "비료 추천받기",
 
-  "lamp_state_on" : "전구 켜짐",
-  "lamp_state_off" : "전구 꺼짐",
+  "close_dialog" : "닫기",
+  "lamp_state_on" : "램프 켜짐",
+  "lamp_state_off" : "램프 꺼짐",
   "measure_all" : "전체 측정하기",
   "measure_one" : "측정하기",
   "measure_complete" : "측정 완료",
   "measure_ready" : "준비 중",
-  "get_spm_report" : "진단하기"
+  "get_spm_report" : "진단하기",
+
+  "connecting_device" : "기기 연결하기"
 }

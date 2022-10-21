@@ -8,14 +8,14 @@ class CropsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(crops.length);
+
     return Container(
-      height: 200.sp,
+      height: 152,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.only(top: 18.sp, bottom: 34.sp, left: 23.sp, right: 23.sp),
+        padding: EdgeInsets.only(top: 18, bottom: 34, left: 23, right: 23),
         separatorBuilder: (context, index) => SizedBox(
-          width: 15.sp,
+          width: 15,
         ),
         itemCount: crops.length,
         shrinkWrap: true,

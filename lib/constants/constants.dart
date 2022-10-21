@@ -89,22 +89,22 @@ makeTextStyle(double fontSize, Color? fontColor,
   );
 }
 SizedBox BigH = SizedBox(
-  height: 30.sp,
+  height: 30,
 );
 SizedBox BigW = SizedBox(
-  width: 30.sp,
+  width: 30,
 );
 SizedBox NorH = SizedBox(
-  height: 20.sp,
+  height: 20,
 );
 SizedBox NorW = SizedBox(
-  width: 20.sp,
+  width: 20,
 );
 SizedBox SmH = SizedBox(
-  height: 10.sp,
+  height: 10,
 );
 SizedBox SmW = SizedBox(
-  width: 10.sp,
+  width: 10,
 );
 
 makeFToast( BuildContext context,Size size, String s){

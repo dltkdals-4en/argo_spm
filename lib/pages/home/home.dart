@@ -1,11 +1,15 @@
 import 'dart:ffi';
 import 'dart:math';
 
-
 import 'package:argo_spm/pages/analyze/analyze_spm_order_page.dart';
 import 'package:argo_spm/pages/home/widgets/nav_bar_item_widget.dart';
+import 'package:argo_spm/pages/prepare/prepare_ble.dart';
+import 'package:argo_spm/providers/permission_provider.dart';
+import 'package:argo_spm/providers/share_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/constants.dart';
 import '../analyze/analyze_order_page.dart';
@@ -52,11 +56,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _controller = PageController(
       initialPage: _selectedIndex,
     );
-
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<PermissionProvider>(context, listen: false).checkBlePermission(
+          context);
+    });
     _arrowAnimationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _arrowAnimation =
-        Tween<double>(begin: 0.0, end: pi / 4).animate(_arrowAnimationController);
+    _arrowAnimation = Tween<double>(begin: 0.0, end: pi / 4)
+        .animate(_arrowAnimationController);
 
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
@@ -69,7 +76,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   changeLanguage(Locale locale) {
     // ignore: deprecated_member_use
     context.locale = locale;
-    print(context.locale.languageCode);
+
+    ('locale  : ${context.locale.languageCode}');
   }
 
   @override
@@ -106,6 +114,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    var prefs = Provider.of<ShareProvider>(context);
+    prefs.spmStateCheck();
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -122,9 +132,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             alignment: Alignment.bottomCenter,
             child: SlideTransition(
               position: _offset,
-              child: AnalyzeOrderPage(
-                onPressed: _toggleFAB,
-              ),
+              child: (prefs.spmState != 2)
+                  ? PrepareBle(
+                      onPressed: _toggleFAB,
+                    )
+                  : AnalyzeOrderPage(
+                      onPressed: _toggleFAB,
+                    ),
             ),
           ),
         ],
@@ -132,6 +146,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       floatingActionButton: AnimatedBuilder(
         animation: _arrowAnimationController,
         builder: (context, child) {
+          switch (prefs.spmState) {
+            case 0:
+              break;
+            case 1:
+              break;
+            case 2:
+              break;
+            default:
+              break;
+          }
           return Transform.rotate(
             angle: _arrowAnimation.value,
             child: FloatingActionButton(
@@ -178,7 +202,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     _selectPage(0);
                   },
                   image:
-                  _selectedIndex == 0 ? 'icon_home_selected' : 'icon_home',
+                      _selectedIndex == 0 ? 'icon_home_selected' : 'icon_home',
                 ),
               ),
               Expanded(

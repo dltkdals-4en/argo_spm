@@ -1,6 +1,7 @@
 import 'package:argo_spm/components/custom_button_widget.dart';
 import 'package:argo_spm/pages/spm_screen/spm_screen.dart';
 import 'package:argo_spm/providers/ble_provider.dart';
+import 'package:argo_spm/providers/spm_provider.dart';
 import 'package:charcode/html_entity.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,7 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    var spm = Provider.of<SpmProvider>(context);
     var ble = Provider.of<BleProvider>(context);
     return GestureDetector(
       onTap: () {
@@ -82,6 +84,17 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
           automaticallyImplyLeading: false,
           title: Text('new_analyze'.tr()),
           centerTitle: true,
+          actions: [
+            TextButton(
+              onPressed: () {
+
+              },
+              child: Text(
+                'send'.tr(),
+                style: Theme.of(context).textTheme.button,
+              ),
+            ),
+          ],
           // Row(
           //   children: <Widget>[
           //     // ignore: deprecated_member_use
@@ -115,36 +128,36 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
           child: Stepper(
             currentStep: _currentStep,
             physics: ClampingScrollPhysics(),
-            controlsBuilder: (context, details) {
-              if (_currentStep == 0) {
-                return Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: details.onStepContinue,
-                      child: Text('next_step'.tr()),
-                    ),
-                  ],
-                );
-              } else if (_currentStep == 4) {
-                return Container();
-              } else {
-                return Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: details.onStepContinue,
-                      child: Text('next_step'.tr()),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    ElevatedButton(
-                      onPressed: details.onStepCancel,
-                      child: Text('before_step'.tr()),
-                    ),
-                  ],
-                );
-              }
-            },
+            // controlsBuilder: (context, details) {
+            //   // if (_currentStep == 0) {
+            //   //   return Row(
+            //   //     children: [
+            //   //       ElevatedButton(
+            //   //         onPressed: details.onStepContinue,
+            //   //         child: Text('next_step'.tr()),
+            //   //       ),
+            //   //     ],
+            //   //   );
+            //   // } else if (_currentStep == 4) {
+            //   //   return Container();
+            //   // } else {
+            //   //   return Row(
+            //   //     children: [
+            //   //       ElevatedButton(
+            //   //         onPressed: details.onStepContinue,
+            //   //         child: Text('next_step'.tr()),
+            //   //       ),
+            //   //       SizedBox(
+            //   //         width: 10,
+            //   //       ),
+            //   //       ElevatedButton(
+            //   //         onPressed: details.onStepCancel,
+            //   //         child: Text('before_step'.tr()),
+            //   //       ),
+            //   //     ],
+            //   //   );
+            //   // }
+            // },
             onStepContinue: () {
               setState(
                 () {
@@ -359,7 +372,7 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                   content: Column(
                     children: [
                       CustomButtonWidget(
-                        title: 'analyze_step_4_1',
+                        title: 'analyze_step_4_1'.tr(),
                         icon: Icons.lightbulb_rounded,
                         onPressed: () {
                           Navigator.of(context).pushNamed(Routes.spm);
@@ -378,12 +391,15 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                 content: Column(
                   children: [
                     CustomButtonWidget(
-                      title: 'analyze_step_5',
+                      title: 'analyze_step_5'.tr(),
                       image: 'icon_measure',
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (context) => SpmScreen(),
+                          builder: (context) {
+                            spm.setMeasuerListData();
+                            return SpmScreen();
+                          },
                         );
                       },
                     ),

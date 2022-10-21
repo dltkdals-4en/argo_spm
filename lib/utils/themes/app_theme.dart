@@ -11,6 +11,7 @@ enum AppTheme {
 
 final appThemeData = {
   AppTheme.LightTheme: ThemeData(
+    primaryColor: Colors.white,
     brightness: Brightness.light,
     platform: TargetPlatform.iOS,
     scaffoldBackgroundColor: Colors.white,
@@ -41,6 +42,10 @@ final appThemeData = {
           fontWeight: FontWeight.w500,
         ),
       ).headline6,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.white, elevation: 0),
     ),
     dividerTheme: DividerThemeData(
       color: Colors.grey[300],

@@ -23,7 +23,8 @@ class CustomButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
 
-      constraints: BoxConstraints(maxWidth: 300, minWidth: 200),
+
+      constraints: BoxConstraints(maxWidth: 300, minWidth: 100),
       onPressed: onPressed,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6),
@@ -43,10 +44,10 @@ class CustomButtonWidget extends StatelessWidget {
             width: 5,
           ),
           Text(
-            title.tr(),
+            title,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.w400,
               fontStyle: FontStyle.normal,
             ),

@@ -1,43 +1,75 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class SpmProvider with ChangeNotifier {
-  List measureList = <MeasureList>[];
+  List<MeasureList> measureList = [];
   bool isMeasured = false;
   int dialogIndex = 0;
-  String dialogTitle = '1단계 측정하기';
+  String dialogTitle = '1/3단계 측정하기';
   bool nextBtn = false;
+  String nextBtnText = 'measure_one'.tr();
 
   setMeasuerListData() {
-    measureList.clear();
-    measureList.add(MeasureList('OM', false, '측정 시작'));
-    measureList.add(MeasureList('N', false, '측정 시작'));
-    measureList.add(MeasureList('P', false, '측정 시작'));
-    print(isMeasured);
-    isMeasured = true;
-    print(isMeasured);
-    notifyListeners();
+    if (measureList.isEmpty) {
+      measureList.add(MeasureList('OM', false));
+      measureList.add(MeasureList('N', false));
+      measureList.add(MeasureList('P', false));
+
+    }
   }
 
-  getMeasureList() {
-    print(measureList.length);
-    measureList
-        .map<DataGridRow>((dataGridRow) => DataGridRow(cells: [
-              DataGridCell(
-                  columnName: 'elementName', value: dataGridRow.elementName),
-              DataGridCell(
-                  columnName: 'measureState', value: dataGridRow.measureState),
-              DataGridCell(
-                  columnName: 'measureBtn', value: dataGridRow.measureBtn),
-            ]))
-        .toList(growable: true);
+  void btnGesture(BuildContext context) {
+
+     if (dialogIndex < 2) {
+      isMeasured = true;
+      notifyListeners();
+      Future.delayed(Duration(seconds: 2)).then((value) {
+
+        measureList[dialogIndex].setSate = true;
+        dialogIndex++;
+        dialogTitle = '${dialogIndex + 1}/3단계 측정하기';
+        isMeasured = false;
+        notifyListeners();
+      });
+    } else if (dialogIndex == 2) {
+      isMeasured = true;
+      notifyListeners();
+      Future.delayed(Duration(seconds: 2)).then((value) {
+        measureList[dialogIndex].setSate = true;
+        nextBtnText = '측정 완료';
+        dialogIndex = 3;
+        isMeasured = false;
+        notifyListeners();
+      });
+    } else if (dialogIndex == 3) {
+      measureList.forEach((element) {
+        element.setSate = false;
+      });
+      dialogIndex = 0;
+      nextBtnText = 'measure_one'.tr();
+      Navigator.pop(context);
+    }
+  }
+
+  void btnNextMove() {
+    if (dialogIndex < 2) {
+      notifyListeners();
+    } else if (dialogIndex == 2) {
+      notifyListeners();
+    }
   }
 }
 
 class MeasureList {
-  MeasureList(this.elementName, this.measureState, this.measureBtn);
+  MeasureList(this.elementName, this.measureState);
 
   final String elementName;
-  final bool measureState;
-  final String measureBtn;
+  bool measureState;
+
+  bool get setSate => measureState;
+
+  set setSate(bool state) {
+    measureState = state;
+  }
 }
