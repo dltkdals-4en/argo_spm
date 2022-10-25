@@ -11,4 +11,5 @@ class Routes {
   static const String step4 = '/step4';
   static const String spm = '/spm_screen';
   static const String pairing = '/pairing_screen';
+  static const String bleScanning = '/ble_scanning';
 }

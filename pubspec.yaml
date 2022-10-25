@@ -51,6 +51,9 @@ dependencies:
   permission_handler: ^10.2.0
   device_info_plus: ^7.0.1
 
+  firebase_auth: ^4.0.2
+  firebase_core: ^2.1.0
+
 
 
 dev_dependencies:

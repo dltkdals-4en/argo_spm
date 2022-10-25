@@ -7,37 +7,47 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import '../constants/constants.dart';
 
 class BleProvider with ChangeNotifier {
-
   FlutterBluetoothSerial serial = FlutterBluetoothSerial.instance;
   List<BluetoothDevice> pairingList = [];
   List<BluetoothDiscoveryResult> bleList =
-  List<BluetoothDiscoveryResult>.empty(growable: true);
+      List<BluetoothDiscoveryResult>.empty(growable: true);
+  bool getBleList = false;
   BluetoothDevice? selectDevice;
   bool bleConnected = false;
   BluetoothConnection? connection;
   List<int> test = [];
-  void scanBle() {
-    serial.startDiscovery().listen((event) {
-      final existingIndex = bleList.indexWhere(
-              (element) => element.device.address == event.device.address);
-      if (existingIndex >= 0) {
-        bleList[existingIndex] = event;
-      } else {
-        var deviceName =
-        (event.device.name != null) ? event.device.name : '알 수 없는 기기';
 
-        if (deviceName!.contains('AgroSPM')) {
-          bleList.add(event);
+  Future<void> scanBle() async {
+    if (getBleList == false) {
+      serial.startDiscovery().listen((event) {
+        final existingIndex = bleList.indexWhere(
+            (element) => element.device.address == event.device.address);
+        if (existingIndex >= 0) {
+          bleList[existingIndex] = event;
+        } else {
+          var deviceName =
+              (event.device.name != null) ? event.device.name : '알 수 없는 기기';
+
+          if (deviceName!.contains('AgroSPM')) {
+            print('ble List add');
+            bleList.add(event);
+          }
         }
-      }
-    }).onDone(() {
+      }).onDone(() {
+        getBleList = true;
+        notifyListeners();
+      });
+    }
+  }
 
-      notifyListeners();
-    });
+  void initBleDevices() {
+    bleList.clear();
+    getBleList = false;
+    scanBle();
+    notifyListeners();
   }
 
   Future<void> getPairingList() async {
-
     await serial.getBondedDevices().then((List<BluetoothDevice> bondedDevices) {
       pairingList = bondedDevices
           .where((element) => element.name!.contains('AgroSPM'))
@@ -48,6 +58,7 @@ class BleProvider with ChangeNotifier {
       notifyListeners();
     });
   }
+
   Future<void> connectBle(BuildContext context, Size size) async {
     if (!bleConnected) {
       await BluetoothConnection.toAddress(selectDevice!.address).then((value) {
@@ -59,24 +70,19 @@ class BleProvider with ChangeNotifier {
         connection!.input!.listen((event) {
           test += event;
           if (test.contains(41)) {
-
-
-            if(test[3]==50){
-
+            if (test[3] == 50) {
               _onDataReceived(Uint8List.fromList(test));
               test.clear();
-            }else{
+            } else {
               _onDataReceived(Uint8List.fromList(test));
               test.clear();
             }
-
           }
           // _onDataReceived(event);
           // notifyListeners();
         });
       }).catchError((e) {
         makeFToast(context, size, "기기 연결을 확인해주세요");
-
       });
     } else {
       bleConnected = false;
@@ -85,9 +91,9 @@ class BleProvider with ChangeNotifier {
 
         connection = null;
       }
-
     }
   }
+
   String _onDataReceived(Uint8List data) {
     // Allocate buffer for parsed data
 
@@ -123,6 +129,5 @@ class BleProvider with ChangeNotifier {
     // outputText = dataString;
     notifyListeners();
     return dataString;
-
   }
 }

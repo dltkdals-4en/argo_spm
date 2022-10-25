@@ -1,5 +1,6 @@
 import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:argo_spm/providers/share_provider.dart';
+import 'package:argo_spm/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -96,11 +97,7 @@ class ParingListScreen extends StatelessWidget {
               height: 60,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => GetBleDevices(),
-                  //     ));
+                  Navigator.of(context).pushNamed(Routes.bleScanning);
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary),
