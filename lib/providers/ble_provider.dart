@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -59,11 +60,12 @@ class BleProvider with ChangeNotifier {
     });
   }
 
-  Future<void> connectBle(BuildContext context, Size size) async {
+  Future<void> connectBle(BuildContext context, Size size, BluetoothDevice device ,PrefsProvider prefs) async {
     if (!bleConnected) {
-      await BluetoothConnection.toAddress(selectDevice!.address).then((value) {
+      await BluetoothConnection.toAddress(device.address).then((value) {
         connection = value;
         bleConnected = value.isConnected;
+        prefs.deviceSave(device.name!);
         // saveDeviceInfo(selectDevice);f
         notifyListeners();
 

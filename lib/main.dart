@@ -3,7 +3,7 @@ import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:argo_spm/providers/bottom_app_bar_provider.dart';
 import 'package:argo_spm/providers/dc_stepper_provider.dart';
 import 'package:argo_spm/providers/permission_provider.dart';
-import 'package:argo_spm/providers/share_provider.dart';
+import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:argo_spm/providers/spm_provider.dart';
 import 'package:argo_spm/routes/route_generator.dart';
 import 'package:argo_spm/routes/routes.dart';
@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
   runApp(
     MultiProvider(
@@ -33,8 +33,8 @@ Future<void> main() async {
         ChangeNotifierProvider<BottomAppBarProvider>(
           create: (context) => BottomAppBarProvider(),
         ),
-        ChangeNotifierProvider<ShareProvider>(
-          create: (context) => ShareProvider(),
+        ChangeNotifierProvider<PrefsProvider>(
+          create: (context) => PrefsProvider(),
         ),
         ChangeNotifierProvider<SpmProvider>(
           create: (context) => SpmProvider(),
@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.home,
+      initialRoute: Routes.root,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
     //   }

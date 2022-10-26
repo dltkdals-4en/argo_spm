@@ -1,7 +1,8 @@
+import 'package:argo_spm/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/share_provider.dart';
+import '../../providers/prefs_provider.dart';
 import '../home/home.dart';
 
 class PreparePrefs extends StatelessWidget {
@@ -9,14 +10,17 @@ class PreparePrefs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var prefs = Provider.of<ShareProvider>(context);
-    if (prefs.firstSpmCheck == true) {
-      print('test1');
-      prefs.checkFirstSpm();
-      return Container();
+    var prefs = Provider.of<PrefsProvider>(context);
+    if (prefs.haveLoginInfo == false) {
+      return LoginPage();
     } else {
-      prefs.getSavedDivice();
-      return Home();
+      if (prefs.getFirstSpm() == true) {
+        prefs.checkFirstSpm();
+        return Container();
+      } else {
+        prefs.getSavedDivice();
+        return Home();
+      }
     }
   }
 }

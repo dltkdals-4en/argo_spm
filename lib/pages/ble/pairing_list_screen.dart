@@ -1,5 +1,5 @@
 import 'package:argo_spm/providers/ble_provider.dart';
-import 'package:argo_spm/providers/share_provider.dart';
+import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:argo_spm/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +13,7 @@ class ParingListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var ble = Provider.of<BleProvider>(context);
-    var prefs = Provider.of<ShareProvider>(context);
+    var prefs = Provider.of<PrefsProvider>(context);
     var size = MediaQuery.of(context).size;
     ble.getPairingList();
     var pairingDevices = ble.pairingList;
@@ -66,8 +66,8 @@ class ParingListScreen extends StatelessWidget {
                         onPressed: () {
                           print('pressed');
 
-                          prefs.deviceSave(pairingDevices[index].name!);
-                          ble.connectBle(context, size);
+
+                          ble.connectBle(context, size, pairingDevices[index],prefs);
                           // settingProvider
                           //     .setDevice(
                           //     deviceName: pairingDevices[index].name!,

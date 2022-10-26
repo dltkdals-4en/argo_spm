@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "614733457343",
+    "project_id": "agrodoctorspm",
+    "storage_bucket": "agrodoctorspm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614733457343:android:385eee7afb6d2378e1230a",
+        "android_client_info": {
+          "package_name": "com.fouren.agro_spm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614733457343-6n14dqjjicj701rckqpbldt1qvlg9bst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fouren.agro_spm",
+            "certificate_hash": "da718a38adf04bd62054dd0f21a8d2dea8eedb5c"
+          }
+        },
+        {
+          "client_id": "614733457343-cok4a83vprp36cc3r0ckm9c40v49oshj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_C7MSd7O5vU9XQIFsnCBdxaunYkAF7bQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614733457343-cok4a83vprp36cc3r0ckm9c40v49oshj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

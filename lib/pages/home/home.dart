@@ -5,7 +5,7 @@ import 'package:argo_spm/pages/analyze/analyze_spm_order_page.dart';
 import 'package:argo_spm/pages/home/widgets/nav_bar_item_widget.dart';
 import 'package:argo_spm/pages/prepare/prepare_ble.dart';
 import 'package:argo_spm/providers/permission_provider.dart';
-import 'package:argo_spm/providers/share_provider.dart';
+import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -114,7 +114,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var prefs = Provider.of<ShareProvider>(context);
+    var prefs = Provider.of<PrefsProvider>(context);
     prefs.spmStateCheck();
     return Scaffold(
       body: Stack(
