@@ -2,6 +2,7 @@ import 'package:argo_spm/providers/analyze_provider.dart';
 import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:argo_spm/providers/bottom_app_bar_provider.dart';
 import 'package:argo_spm/providers/dc_stepper_provider.dart';
+import 'package:argo_spm/providers/login_provider.dart';
 import 'package:argo_spm/providers/permission_provider.dart';
 import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:argo_spm/providers/spm_provider.dart';
@@ -15,11 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
   runApp(
     MultiProvider(
@@ -45,6 +45,9 @@ Future<void> main() async {
         ChangeNotifierProvider<PermissionProvider>(
           create: (context) => PermissionProvider(),
         ),
+        ChangeNotifierProvider<LoginProvider>(
+          create: (context) => LoginProvider(),
+        ),
       ],
       child: EasyLocalization(
         supportedLocales: [
@@ -65,7 +68,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     // return ScreenUtilInit(
     //     designSize: const Size(1158, 800),
     //     minTextAdapt: true,

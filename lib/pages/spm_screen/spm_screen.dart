@@ -1,6 +1,6 @@
-
 import 'package:argo_spm/constants/constants.dart';
 import 'package:argo_spm/pages/spm_screen/widgets/spm_measure_row_widget.dart';
+import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:argo_spm/providers/spm_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -14,12 +14,12 @@ class SpmScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var spm = Provider.of<SpmProvider>(context);
     var size = MediaQuery.of(context).size;
-
+    var ble = Provider.of<BleProvider>(context);
     return Stack(
       children: [
         AlertDialog(
           title: Center(
-            child: Text('${spm.dialogTitle}'),
+            child: Text('${spm.dialogIndex + 1}/3단계 측정하기'),
           ),
 
           content: SingleChildScrollView(
@@ -31,7 +31,7 @@ class SpmScreen extends StatelessWidget {
                   width: size.width * 2 / 3,
                   height: (size.width * 2 / 3) * 2 / 3,
                   color: AppColors.darkGrey,
-                  child: Center(child: Text('시료 샘플 이미지 및 설명 문구(with webview)')),
+                  child: Center(child: Text('${ble.resultOM}\n${ble.resultN}\n${ble.resultP}')),
                 ),
                 NorH,
                 // CustomButtonWidget(
@@ -87,7 +87,8 @@ class SpmScreen extends StatelessWidget {
                   width: size.width,
                   child: ElevatedButton(
                     onPressed: () {
-                      spm.btnGesture(context);
+                      spm.btnGesture(context, ble);
+                      ble.sendMeasureData(spm.dialogIndex);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.only(

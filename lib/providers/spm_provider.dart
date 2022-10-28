@@ -1,3 +1,4 @@
+import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -9,7 +10,7 @@ class SpmProvider with ChangeNotifier {
   String dialogTitle = '1/3단계 측정하기';
   bool nextBtn = false;
   String nextBtnText = 'measure_one'.tr();
-
+  bool measureComplete = false;
   setMeasuerListData() {
     if (measureList.isEmpty) {
       measureList.add(MeasureList('OM', false));
@@ -19,7 +20,7 @@ class SpmProvider with ChangeNotifier {
     }
   }
 
-  void btnGesture(BuildContext context) {
+  void btnGesture(BuildContext context, BleProvider ble) {
 
      if (dialogIndex < 2) {
       isMeasured = true;
@@ -46,8 +47,11 @@ class SpmProvider with ChangeNotifier {
       measureList.forEach((element) {
         element.setSate = false;
       });
+      ble.changeLampState(ble.lampState);
       dialogIndex = 0;
       nextBtnText = 'measure_one'.tr();
+      measureComplete =true;
+      notifyListeners();
       Navigator.pop(context);
     }
   }

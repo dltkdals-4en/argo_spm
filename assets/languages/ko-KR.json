@@ -67,6 +67,7 @@
   "analyze_step_4_3" : "2단계 시료 측정하기",
   "analyze_step_4_4" : "3단계 시료 측정하기",
   "analyze_step_5" : "시료 측정하기",
+  "analyze_step_6" : "레포트 만들기",
 
   "elements_summary" : "측정 결과",
 
@@ -107,6 +108,7 @@
   "login_3": "로그인",
   "login_4": "비밀번호 분실",
   "login_5": "구글 계정으로 로그인",
+  "login_6": "로그인 페이지로 이동",
 
   "empty_screen_title" : "No Report",
   "empty_screen_sub" : "기록된 리포트가 없습니다",
@@ -149,5 +151,8 @@
   "measure_ready" : "준비 중",
   "get_spm_report" : "진단하기",
 
-  "connecting_device" : "기기 연결하기"
+  "connecting_device" : "기기 연결하기",
+
+  "admin_email_id" : "contact@4en.co.kr",
+  "admin_pw" : 1234
 }

@@ -13,7 +13,6 @@ class ParingListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var ble = Provider.of<BleProvider>(context);
-    var prefs = Provider.of<PrefsProvider>(context);
     var size = MediaQuery.of(context).size;
     ble.getPairingList();
     var pairingDevices = ble.pairingList;
@@ -65,23 +64,13 @@ class ParingListScreen extends StatelessWidget {
                       trailing: ElevatedButton(
                         onPressed: () {
                           print('pressed');
-
-
-                          ble.connectBle(context, size, pairingDevices[index],prefs);
-                          // settingProvider
-                          //     .setDevice(
-                          //     deviceName: pairingDevices[index].name!,
-                          //     address: pairingDevices[index].address)
-                          //     .then((value) {
-                          //   bleProvider
-                          //       .setSelectedDivice(pairingDevices[index]);
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => CheckBluetoothConnected(),
-                          //     ),
-                          //   );
-                          // });
+                          ble
+                              .connectBle(
+                                context,
+                                size,
+                                pairingDevices[index],
+                              )
+                              .then((value) => Navigator.pop(context));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary),

@@ -1,7 +1,10 @@
 // import 'package:agrodoctor/routes/routes.dart';
+import 'package:argo_spm/pages/login/widgets/input_info_widget.dart';
+import 'package:argo_spm/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/constants.dart';
 
@@ -76,7 +79,7 @@ class _LoginPageState extends State<LoginPage>
                   Expanded(
                     child: Stack(
                       children: [
-                        _buildForm(height),
+                        InputInfoWidget(),
                         Hero(
                           tag: 'main-clipper',
                           child: ClipPath(
@@ -116,65 +119,89 @@ class _LoginPageState extends State<LoginPage>
       ),
     );
   }
-
-  Widget _buildForm(_height) {
-    return Padding(
-      padding: EdgeInsets.only(top: _height * .55 - 70),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('intro_2'.tr(),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, color: AppColors.white)),
-          SizedBox(
-            height: 50,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 30,
-              ),
-              Expanded(
-                child: _signInButton(),
-              ),
-              SizedBox(
-                width: 30,
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _signInButton() {
-    return OutlinedButton(
-      onPressed: () {
-        print('Pressed');
-      },
-      style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.black87, backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            FontAwesomeIcons.rightFromBracket,
-            size: 20,
-            color: AppColors.googleRed,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            'login_3'.tr(),
-          ),
-        ],
-      ),
-    );
-  }
+//
+// Widget _buildForm(_height) {
+//   var login = Provider.of<LoginProvider>(context);
+//   return Padding(
+//     padding: EdgeInsets.only(top: _height * .55 - 70),
+//     child: Column(
+//       crossAxisAlignment: CrossAxisAlignment.center,
+//       children: [
+//         Text('intro_2'.tr(),
+//             textAlign: TextAlign.center,
+//             style: TextStyle(fontSize: 20, color: AppColors.white)),
+//         SizedBox(
+//           height: 50,
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(left: 30, right: 30),
+//           child: TextField(
+//             controller: login.email,
+//             decoration: InputDecoration(
+//               filled: true,
+//               fillColor: AppColors.white,
+//             ),
+//           ),
+//         ),
+//         BigH,
+//         Padding(
+//           padding: const EdgeInsets.only(left: 30, right: 30),
+//           child: TextField(
+//             controller: login.pw,
+//             decoration: InputDecoration(
+//               filled: true,
+//               fillColor: AppColors.white,
+//             ),
+//           ),
+//         ),
+//         SizedBox(
+//           height: 50,
+//         ),
+//         Row(
+//           children: [
+//             SizedBox(
+//               width: 30,
+//             ),
+//             Expanded(
+//               child: _signInButton(),
+//             ),
+//             SizedBox(
+//               width: 30,
+//             ),
+//           ],
+//         )
+//       ],
+//     ),
+//   );
+// }
+//
+// Widget _signInButton() {
+//   return OutlinedButton(
+//     onPressed: () {},
+//     style: OutlinedButton.styleFrom(
+//       foregroundColor: Colors.black87,
+//       backgroundColor: Colors.white,
+//       shape: const RoundedRectangleBorder(
+//           borderRadius: BorderRadius.all(Radius.circular(10))),
+//     ),
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         Icon(
+//           FontAwesomeIcons.rightFromBracket,
+//           size: 20,
+//           color: AppColors.googleRed,
+//         ),
+//         SizedBox(
+//           width: 10,
+//         ),
+//         Text(
+//           'login_3'.tr(),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
 //todo Email 로그인 연동 시 구현 부분, Validator 필요
 // Widget _buildForm(_height) {

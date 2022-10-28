@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:argo_spm/pages/analyze/analyze_spm_order_page.dart';
 import 'package:argo_spm/pages/home/widgets/nav_bar_item_widget.dart';
 import 'package:argo_spm/pages/prepare/prepare_ble.dart';
+import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:argo_spm/providers/permission_provider.dart';
 import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -57,9 +58,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       initialPage: _selectedIndex,
     );
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<PermissionProvider>(context, listen: false).checkBlePermission(
-          context);
+      Provider.of<PermissionProvider>(context, listen: false)
+          .checkBlePermission(context);
     });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   Provider.of<BleProvider>(context, listen: false).connectBle(
+    //       context, MediaQuery.of(context).size, PrefsProvider(), null);
+    // });
     _arrowAnimationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _arrowAnimation = Tween<double>(begin: 0.0, end: pi / 4)
@@ -115,7 +120,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     var prefs = Provider.of<PrefsProvider>(context);
-    prefs.spmStateCheck();
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -159,7 +164,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           return Transform.rotate(
             angle: _arrowAnimation.value,
             child: FloatingActionButton(
-              onPressed: _toggleFAB,
+              onPressed: () {
+                prefs.spmStateCheck().then((value) => _toggleFAB());
+              },
               backgroundColor: AppColors.primary,
               child: Icon(
                 Icons.add,

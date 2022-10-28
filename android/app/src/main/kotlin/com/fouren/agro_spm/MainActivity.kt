@@ -1,4 +1,4 @@
-package com.fouren.argo_spm
+package com.fouren.agro_spm
 
 import io.flutter.embedding.android.FlutterActivity
 

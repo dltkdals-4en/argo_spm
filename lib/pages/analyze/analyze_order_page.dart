@@ -86,9 +86,7 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
           centerTitle: true,
           actions: [
             TextButton(
-              onPressed: () {
-
-              },
+              onPressed: () {},
               child: Text(
                 'send'.tr(),
                 style: Theme.of(context).textTheme.button,
@@ -128,36 +126,6 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
           child: Stepper(
             currentStep: _currentStep,
             physics: ClampingScrollPhysics(),
-            // controlsBuilder: (context, details) {
-            //   // if (_currentStep == 0) {
-            //   //   return Row(
-            //   //     children: [
-            //   //       ElevatedButton(
-            //   //         onPressed: details.onStepContinue,
-            //   //         child: Text('next_step'.tr()),
-            //   //       ),
-            //   //     ],
-            //   //   );
-            //   // } else if (_currentStep == 4) {
-            //   //   return Container();
-            //   // } else {
-            //   //   return Row(
-            //   //     children: [
-            //   //       ElevatedButton(
-            //   //         onPressed: details.onStepContinue,
-            //   //         child: Text('next_step'.tr()),
-            //   //       ),
-            //   //       SizedBox(
-            //   //         width: 10,
-            //   //       ),
-            //   //       ElevatedButton(
-            //   //         onPressed: details.onStepCancel,
-            //   //         child: Text('before_step'.tr()),
-            //   //       ),
-            //   //     ],
-            //   //   );
-            //   // }
-            // },
             onStepContinue: () {
               setState(
                 () {
@@ -183,9 +151,21 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                   //   _sendData();
                   // }
                   else if (_currentStep == 4) {
+                    if (!spm.measureComplete) {
+                      Fluttertoast.showToast(
+                          msg: '시료 측정을 완료해주세요',
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM);
+                    } else {
+                      if (!_currentFocus.hasPrimaryFocus) {
+                        _currentFocus.unfocus();
+                      }
+                      _currentStep = _currentStep + 1;
+                    }
+                  } else if (_currentStep == 5) {
                     _sendData();
                   } else {
-                    if (_currentStep < 4) {
+                    if (_currentStep < 5) {
                       _currentStep += 1;
                     } else {
                       _currentStep = 0;
@@ -375,7 +355,7 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                         title: 'analyze_step_4_1'.tr(),
                         icon: Icons.lightbulb_rounded,
                         onPressed: () {
-                          Navigator.of(context).pushNamed(Routes.spm);
+                          ble.changeLampState(ble.lampState);
                         },
                       ),
                     ],
@@ -391,17 +371,42 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                 content: Column(
                   children: [
                     CustomButtonWidget(
-                      title: 'analyze_step_5'.tr(),
+                      title: (!spm.measureComplete)
+                          ? 'analyze_step_5'.tr()
+                          : '측정 완료',
                       image: 'icon_measure',
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            spm.setMeasuerListData();
-                            return SpmScreen();
-                          },
-                        );
+                        ble.getWavelength().then((value) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              spm.setMeasuerListData();
+
+                              return SpmScreen();
+                            },
+                          );
+                        });
                       },
+                    ),
+                  ],
+                ),
+              ),
+              Step(
+                isActive: _currentStep >= 0,
+                state:
+                    _currentStep >= 5 ? StepState.complete : StepState.disabled,
+                title: Text(
+                  'Step 6. ' + 'analyze_step_6'.tr(),
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                content: Column(
+                  children: [
+                    CustomButtonWidget(
+                      title: (!spm.measureComplete)
+                          ? 'analyze_step_6'.tr()
+                          : '측정 완료',
+                      icon: Icons.send,
+                      onPressed: () {},
                     ),
                   ],
                 ),

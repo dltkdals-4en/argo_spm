@@ -17,7 +17,7 @@ class PrepareBle extends StatelessWidget {
       case 0:
         return ConnectDeviceScreen(onPressed: onPressed,);
       case 1:
-        return Container();
+        return ConnectDeviceScreen(onPressed: onPressed,);
       default:
         print('default');
         return Container();

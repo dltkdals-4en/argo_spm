@@ -13,29 +13,32 @@ class PrefsProvider with ChangeNotifier {
 
   Future<void> spmStateCheck() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    spmState = await prefs.getInt('spmState') ?? 0;
-    notifyListeners();
-    // switch (spmState) {
-    //   case 0:
-    //     break;
-    //   case 1:
-    //     break;
-    //   case 2:
-    //     break;
-    //   default:
-    //     break;
-    // }
+    if (spmState == 0) {
+      spmState = await prefs.getInt('spmState') ?? 0;
+
+      savedDevice = await prefs.getStringList('savedDevice')![0] ?? '';
+      if (savedDevice == '') {
+        setSpmState(1);
+      } else {
+        setSpmState(2);
+      }
+      print('spmStateCheck -> $spmState');
+      notifyListeners();
+    }
   }
 
   Future<void> setSpmState(int state) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('spmState', state);
+    spmState = state;
     notifyListeners();
   }
-  Future<bool> getFirstSpm() async{
+
+  Future<bool> getFirstSpm() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.getBool('firstSpm') ?? true;
   }
+
   Future<void> checkFirstSpm() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     firstSpmCheck = await prefs.getBool('firstSpm') ?? true;
@@ -49,25 +52,29 @@ class PrefsProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deviceSave(String deviceName) async {
+  Future<void> deviceSave(String deviceName, String deviceAddress) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('savedDevice', deviceName);
+    await prefs.setStringList('savedDevice', [deviceName, deviceAddress]);
   }
 
   Future<void> getSavedDivice() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    savedDevice = await prefs.getString('savedDevice') ?? '';
+    savedDevice = await prefs.getStringList('savedDevice')![0] ?? '';
     if (savedDevice == '') {
       setSpmState(1);
-    }else{
+      notifyListeners();
+    } else {
       setSpmState(2);
+      notifyListeners();
     }
     notifyListeners();
   }
-  Future<bool> getFirstLogin() async{
+
+  Future<bool> getFirstLogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.getBool('firstLogin')??true;
+    return await prefs.getBool('firstLogin') ?? true;
   }
+
   Future<void> getLoginInfo() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     savedId = await prefs.getString('savedId') ?? '';
@@ -75,8 +82,22 @@ class PrefsProvider with ChangeNotifier {
     if (savedId == '' || savedPw == '') {
       haveLoginInfo = false;
       notifyListeners();
-    }else{
+    } else {
       haveLoginInfo = true;
+      notifyListeners();
     }
+  }
+
+  Future<void> saveEmailAndPw(String email, String pw) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('savedId', email);
+    await prefs.setString('savedPw', pw);
+    await prefs.setBool('firstLogin', false);
+  }
+
+  Future<void> initLoginInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('savedId', '');
+    await prefs.setString('savedPw', '');
   }
 }
