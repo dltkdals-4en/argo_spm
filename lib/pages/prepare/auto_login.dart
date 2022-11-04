@@ -1,6 +1,7 @@
 import 'package:argo_spm/pages/login/login_page.dart';
 import 'package:argo_spm/pages/prepare/state_check.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/constants.dart';
@@ -17,8 +18,21 @@ class AutoLogin extends StatelessWidget {
     var login = Provider.of<LoginProvider>(context);
     if (login.isSignIn == false) {
       login.autoSignIn();
-      return Container(
-        color: Colors.blue,
+      return Scaffold(
+        body: Container(
+          color: AppColors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SpinKitFadingCircle(
+                color: AppColors.primary,
+              ),
+              SmH,
+              Text('로그인 중입니다.'),
+            ],
+          ),
+        ),
       );
     } else {
       return StateCheck();

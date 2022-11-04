@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:argo_spm/pages/analyze/analyze_spm_order_page.dart';
 import 'package:argo_spm/pages/home/widgets/nav_bar_item_widget.dart';
 import 'package:argo_spm/pages/prepare/prepare_ble.dart';
+import 'package:argo_spm/providers/analyze_provider.dart';
 import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:argo_spm/providers/permission_provider.dart';
 import 'package:argo_spm/providers/prefs_provider.dart';
@@ -57,9 +58,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _controller = PageController(
       initialPage: _selectedIndex,
     );
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   Provider.of<PermissionProvider>(context, listen: false)
+    //       .checkBlePermission(context);
+    // });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<PermissionProvider>(context, listen: false)
-          .checkBlePermission(context);
+      Provider.of<AnalyzeProvider>(context, listen: false)
+          .getReport();
     });
     // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
     //   Provider.of<BleProvider>(context, listen: false).connectBle(

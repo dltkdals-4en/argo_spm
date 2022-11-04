@@ -11,22 +11,20 @@ class SpmProvider with ChangeNotifier {
   bool nextBtn = false;
   String nextBtnText = 'measure_one'.tr();
   bool measureComplete = false;
+
   setMeasuerListData() {
     if (measureList.isEmpty) {
       measureList.add(MeasureList('OM', false));
       measureList.add(MeasureList('N', false));
       measureList.add(MeasureList('P', false));
-
     }
   }
 
   void btnGesture(BuildContext context, BleProvider ble) {
-
-     if (dialogIndex < 2) {
+    if (dialogIndex < 2) {
       isMeasured = true;
       notifyListeners();
       Future.delayed(Duration(seconds: 2)).then((value) {
-
         measureList[dialogIndex].setSate = true;
         dialogIndex++;
         dialogTitle = '${dialogIndex + 1}/3단계 측정하기';
@@ -50,7 +48,7 @@ class SpmProvider with ChangeNotifier {
       ble.changeLampState(ble.lampState);
       dialogIndex = 0;
       nextBtnText = 'measure_one'.tr();
-      measureComplete =true;
+      measureComplete = true;
       notifyListeners();
       Navigator.pop(context);
     }
@@ -62,6 +60,21 @@ class SpmProvider with ChangeNotifier {
     } else if (dialogIndex == 2) {
       notifyListeners();
     }
+  }
+
+  String measureImage() {
+    print('dialogIndex = $dialogIndex');
+    switch (dialogIndex) {
+      case 0:
+        return 'assets/images/measure_om_color.png';
+      case 1:
+        return 'assets/images/measure_n_color.png';
+      case 2:
+        return 'assets/images/measure_p_color.png';
+      default:
+        return 'assets/images/measure_om_color.png';
+    }
+    notifyListeners();
   }
 }
 

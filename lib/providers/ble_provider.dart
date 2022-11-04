@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:argo_spm/providers/prefs_provider.dart';
+import 'package:argo_spm/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -14,6 +15,7 @@ class BleProvider with ChangeNotifier {
   List<BluetoothDiscoveryResult> bleList =
       List<BluetoothDiscoveryResult>.empty(growable: true);
   bool getBleList = false;
+  bool getPairingDevices = false;
   BluetoothDevice? selectDevice;
   bool bleConnected = false;
   BluetoothConnection? connection;
@@ -50,29 +52,38 @@ class BleProvider with ChangeNotifier {
   }
 
   Future<void> getPairingList() async {
-    await serial.getBondedDevices().then((List<BluetoothDevice> bondedDevices) {
-      pairingList = bondedDevices
-          .where((element) => element.name!.contains('AgroSPM'))
-          .toList();
-      pairingList.sort((a, b) => a.name!.compareTo(b.name!));
-    }).then((value) {
-      // findPairingDevices = true;
-      notifyListeners();
-    });
+    if (getPairingDevices == false) {
+      await serial
+          .getBondedDevices()
+          .then((List<BluetoothDevice> bondedDevices) {
+        pairingList = bondedDevices
+            .where((element) => element.name!.contains('AgroSPM'))
+            .toList();
+        pairingList.sort((a, b) => a.name!.compareTo(b.name!));
+      }).then((value) {
+        getPairingDevices = true;
+        // findPairingDevices = true;
+
+        notifyListeners();
+      });
+    }
   }
 
   String deviceAddress = '';
   String deviceName = '';
 
+  Future<void> getDeviceName() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  }
+
   Future<void> connectBleAuto(PrefsProvider prefsProvider) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     deviceAddress = prefs.getStringList('savedDevice')![1];
-
+    deviceName = prefs.getStringList('savedDevice')![0];
     if (prefsProvider.spmState == 2) {
       await BluetoothConnection.toAddress(deviceAddress).then((value) {
         connection = value;
         bleConnected = value.isConnected;
-        deviceName = prefs.getStringList('savedDevice')![0];
         notifyListeners();
         connection!.input!.listen((event) {
           test += event;
@@ -104,14 +115,16 @@ class BleProvider with ChangeNotifier {
     }
   }
 
-  Future<void> connectBle(
-      BuildContext context, Size size, BluetoothDevice device) async {
+  Future<void> connectBle(BuildContext context, Size size,
+      BluetoothDevice device, PrefsProvider prefsProvider) async {
     if (!bleConnected) {
-      await BluetoothConnection.toAddress(deviceAddress).then((value) {
+      await BluetoothConnection.toAddress(device.address).then((value) {
         connection = value;
         bleConnected = value.isConnected;
         deviceName = device.name!;
         // saveDeviceInfo(selectDevice);f
+        prefsProvider.setSpmState(2);
+        prefsProvider.deviceSave(deviceName, device.address);
         notifyListeners();
 
         connection!.input!.listen((event) {
@@ -142,6 +155,13 @@ class BleProvider with ChangeNotifier {
       }
       notifyListeners();
     }
+  }
+
+  Future<void> devicePairing(String address) async {
+    await serial.bondDeviceAtAddress(address).catchError((e) {
+      print(e);
+    });
+    notifyListeners();
   }
 
   String _onDataReceived(Uint8List data) {
@@ -182,17 +202,17 @@ class BleProvider with ChangeNotifier {
   }
 
   List<String> outputList = [];
-  bool lampState = true;
+  bool lampState = false;
 
   Future<void> changeLampState(bool state) async {
-    if (state) {
-      sendData('\$endOperation()\r\n').then((value) {
-        lampState = false;
+    if (!state) {
+      sendData('\$preOperation()\r\n').then((value) {
+        lampState = true;
         notifyListeners();
       });
     } else {
-      sendData('\$preOperation()\r\n').then((value) {
-        lampState = true;
+      sendData('\$endOperation()\r\n').then((value) {
+        lampState = false;
         notifyListeners();
       });
     }
@@ -328,4 +348,25 @@ class BleProvider with ChangeNotifier {
   Future<void> getWavelength() async {
     await sendData('\$connectSensor()\r\n').then((value) => wavelength = true);
   }
+
+  bool recentBle = false;
+
+  Future<void> setRecent(BuildContext context, String address, Size size,
+      BluetoothDevice device, PrefsProvider prefs) async {
+    if (!bleConnected) {
+      await connectBle(context, size, device, prefs).then((value) {
+        Navigator.of(context).pushNamed(Routes.root);
+        getPairingDevices = false;
+        notifyListeners();
+      });
+    }
+  }
+
+// void getRecent() {
+//   if (connection == null || connection!.isConnected == false) {
+//     recentBle = false;
+//   } else {
+//     recentBle = true;
+//   }
+// }
 }

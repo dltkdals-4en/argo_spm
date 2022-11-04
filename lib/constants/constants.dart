@@ -65,10 +65,18 @@ enum UseCase {
   FAIL,
   FAILEMPTY,
 }
-
+class fourenExternalLink {
+  static const homepage = 'https://www.4en.co.kr';
+  static const terms = 'https://www.4en.co.kr/policy/terms.html';
+  static const privacy = 'https://www.4en.co.kr/policy/privacy.html';
+  static const manual = '';
+  static const googlePlayUrl = '';
+  static const appStoreUrl = '';
+}
 makeTextStyle(double fontSize, Color? fontColor,
     [String? fontWeight, double? height]) {
   var weight = FontWeight.w500;
+
   switch (fontWeight) {
     case 'bold':
       weight = FontWeight.bold;

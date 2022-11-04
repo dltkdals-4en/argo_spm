@@ -1,6 +1,7 @@
 import 'package:argo_spm/pages/prepare/auto_ble.dart';
 import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/constants.dart';
@@ -16,7 +17,14 @@ class StateCheck extends StatelessWidget {
     switch (prefs.spmState) {
       case 0:
         prefs.spmStateCheck();
-        return Container();
+        return Container(
+          color: Colors.white,
+          child: Center(
+            child:  SpinKitFadingCircle(
+              color: AppColors.primary,
+            ),
+          ),
+        );
       case 1:
         return Home();
       case 2:

@@ -10,10 +10,14 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../constants/constants.dart';
+import '../../model/report_bak.dart';
+import '../../providers/analyze_provider.dart';
 import '../../routes/routes.dart';
 import '../../utils/app_utils.dart';
 
 import 'dart:math';
+
+import '../../utils/db_helper.dart';
 
 class AnalyzeOrderPage extends StatefulWidget {
   final loadingWidget;
@@ -67,10 +71,174 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
     super.dispose();
   }
 
+  final reports = [
+    Report(
+      title: '포이엔 리포트 210412',
+      weatherID: 800,
+      cropKey: 'crop_strawberry',
+      address: 'Seoul',
+      soilType: 0,
+      soilArea: 2000,
+      gpsLat: '123.1232332',
+      gpsLong: '123.1232332',
+      score: 14,
+      isFavorite: 1,
+      element0: '74cc7b',
+      element1: '26a0d2',
+      element2: 'dfeaff',
+      element3: '4191e0',
+      element4: 'bd872f',
+      element5: 'a36617',
+      element6: '',
+      element7: '',
+    ),
+    Report(
+      title: '포이엔 리포트 210404',
+      weatherID: 800,
+      cropKey: 'crop_sesamum',
+      address: 'Seoul',
+      soilType: 0,
+      soilArea: 12,
+      gpsLat: '123.1232332',
+      gpsLong: '123.1232332',
+      score: 3,
+      isFavorite: 0,
+      element0: '74cc7b',
+      element1: '26a0d2',
+      element2: 'dfeaff',
+      element3: '4191e0',
+      element4: 'bd872f',
+      element5: 'a36617',
+      element6: '',
+      element7: '',
+    ),
+    Report(
+      title: '포이엔 리포트 210412',
+      weatherID: 800,
+      cropKey: 'crop_strawberry',
+      address: 'Seoul',
+      soilType: 0,
+      soilArea: 2000,
+      gpsLat: '123.1232332',
+      gpsLong: '123.1232332',
+      score: 14,
+      isFavorite: 1,
+      element0: '74cc7b',
+      element1: '26a0d2',
+      element2: 'dfeaff',
+      element3: '4191e0',
+      element4: 'bd872f',
+      element5: 'a36617',
+      element6: '',
+      element7: '',
+    ),
+    Report(
+      title: '포이엔 리포트 210404',
+      weatherID: 800,
+      cropKey: 'crop_sesamum',
+      address: 'Seoul',
+      soilType: 0,
+      soilArea: 12,
+      gpsLat: '123.1232332',
+      gpsLong: '123.1232332',
+      score: 4,
+      isFavorite: 0,
+      element0: '74cc7b',
+      element1: '26a0d2',
+      element2: 'dfeaff',
+      element3: '4191e0',
+      element4: 'bd872f',
+      element5: 'a36617',
+      element6: '',
+      element7: '',
+    ),
+    Report(
+      title: '포이엔 리포트 210412',
+      weatherID: 800,
+      cropKey: 'crop_strawberry',
+      address: 'Seoul',
+      soilType: 0,
+      soilArea: 2000,
+      gpsLat: '123.1232332',
+      gpsLong: '123.1232332',
+      score: 10,
+      isFavorite: 1,
+      element0: '74cc7b',
+      element1: '26a0d2',
+      element2: 'dfeaff',
+      element3: '4191e0',
+      element4: 'bd872f',
+      element5: 'a36617',
+      element6: '',
+      element7: '',
+    ),
+    Report(
+      title: '포이엔 리포트 210404',
+      weatherID: 800,
+      cropKey: 'crop_sesamum',
+      address: 'Seoul',
+      soilType: 0,
+      soilArea: 12,
+      gpsLat: '123.1232332',
+      gpsLong: '123.1232332',
+      score: 50,
+      isFavorite: 0,
+      element0: '74cc7b',
+      element1: '26a0d2',
+      element2: 'dfeaff',
+      element3: '4191e0',
+      element4: 'bd872f',
+      element5: 'a36617',
+      element6: '',
+      element7: '',
+    ),
+    Report(
+      title: '포이엔 리포트 210412',
+      weatherID: 800,
+      cropKey: 'crop_strawberry',
+      address: 'Seoul',
+      soilType: 0,
+      soilArea: 2000,
+      gpsLat: '123.1232332',
+      gpsLong: '123.1232332',
+      score: 54,
+      isFavorite: 1,
+      element0: '74cc7b',
+      element1: '26a0d2',
+      element2: 'dfeaff',
+      element3: '4191e0',
+      element4: 'bd872f',
+      element5: 'a36617',
+      element6: '',
+      element7: '',
+    ),
+    Report(
+      title: '포이엔 리포트 210404',
+      weatherID: 800,
+      cropKey: 'crop_sesamum',
+      address: 'Seoul',
+      soilType: 0,
+      soilArea: 12,
+      gpsLat: '123.1232332',
+      gpsLong: '123.1232332',
+      score: 35,
+      isFavorite: 0,
+      element0: '74cc7b',
+      element1: '26a0d2',
+      element2: 'dfeaff',
+      element3: '4191e0',
+      element4: 'bd872f',
+      element5: 'a36617',
+      element6: '',
+      element7: '',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     var spm = Provider.of<SpmProvider>(context);
     var ble = Provider.of<BleProvider>(context);
+    var analyze = Provider.of<AnalyzeProvider>(context);
     return GestureDetector(
       onTap: () {
         _currentFocus = FocusScope.of(context);
@@ -86,7 +254,10 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
           centerTitle: true,
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Report inputReport = reports[Random().nextInt(reports.length)];
+                DBHelper().createData(inputReport);
+              },
               child: Text(
                 'send'.tr(),
                 style: Theme.of(context).textTheme.button,
@@ -163,7 +334,7 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                       _currentStep = _currentStep + 1;
                     }
                   } else if (_currentStep == 5) {
-                    _sendData();
+                    _sendData(analyze);
                   } else {
                     if (_currentStep < 5) {
                       _currentStep += 1;
@@ -402,11 +573,12 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                 content: Column(
                   children: [
                     CustomButtonWidget(
-                      title: (!spm.measureComplete)
-                          ? 'analyze_step_6'.tr()
-                          : '측정 완료',
+                      title: 'analyze_step_6'.tr(),
                       icon: Icons.send,
-                      onPressed: () {},
+                      onPressed: () {
+
+                        _sendData(analyze);
+                      },
                     ),
                   ],
                 ),
@@ -450,7 +622,7 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
     );
   }
 
-  Future _sendData() async {
+  Future _sendData(AnalyzeProvider analyze) async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -470,6 +642,10 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
               // ignore: deprecated_member_use
               ElevatedButton(
                 onPressed: () {
+                  Report inputReport =
+                  reports[Random().nextInt(reports.length)];
+                  DBHelper().createData(inputReport);
+                  analyze.getReport();
                   _initialData();
                   _onPressed();
 
@@ -478,6 +654,9 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                   // Navigator.of(context)
                   //     .pushNamed(Routes.reportDetails, arguments: _report);
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                ),
                 child: Text('OK'),
               ),
             ],

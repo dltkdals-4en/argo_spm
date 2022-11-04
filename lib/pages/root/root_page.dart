@@ -1,10 +1,13 @@
 import 'package:argo_spm/pages/intro/intro_page.dart';
 import 'package:argo_spm/pages/login/login_page.dart';
 import 'package:argo_spm/pages/prepare/auto_login.dart';
+import 'package:argo_spm/providers/permission_provider.dart';
 import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/constants.dart';
 import '../../providers/login_provider.dart';
 
 class RootPage extends StatelessWidget {
@@ -12,19 +15,39 @@ class RootPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var permission = Provider.of<PermissionProvider>(context);
     var login = Provider.of<LoginProvider>(context);
-    print('root');
-    switch (login.prepareUserInfo()) {
-      case 0:
-        return Container(
-          color: Colors.red,
-        );
-      case 1:
-        return IntroPage();
-      case 2:
-        return AutoLogin();
-      default:
-        return Container();
+    if(permission.permissionChecked ==false){
+      permission.checkBlePermission(context);
+      return Container(
+        color: Colors.white,
+        child: Center(
+          child: SpinKitFadingCircle(
+            color: AppColors.primary,
+          ),
+        ),
+      );
+    }else{
+      switch (login.prepareUserInfo()) {
+        case 0:
+          return Container(
+            color: Colors.white,
+            child: Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primary,
+              ),
+            ),
+          );
+        case 1:
+          return IntroPage();
+        case 2:
+          return AutoLogin();
+        default:
+          return Container();
+      }
     }
+
+
+
   }
 }

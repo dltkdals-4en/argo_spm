@@ -12,5 +12,7 @@ class Routes {
   static const String spm = '/spm_screen';
   static const String pairing = '/pairing_screen';
   static const String bleScanning = '/ble_scanning';
+  static const String reportDetails = '/report_details';
+
   // static const String preparePrefs = '/prepare_prefs';
 }

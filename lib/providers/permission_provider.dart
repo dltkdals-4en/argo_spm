@@ -11,8 +11,10 @@ import 'package:permission_handler/permission_handler.dart';
 class PermissionProvider with ChangeNotifier {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};
+  bool permissionChecked = false;
 
   Future<void> checkBlePermission(BuildContext context) async {
+    print('checkPermission');
     var deviceData = <String, dynamic>{};
     try {
       if (kIsWeb) {
@@ -51,10 +53,6 @@ class PermissionProvider with ChangeNotifier {
       if (!statusBluetoothScan.isGranted ||
           !statusBluetoothConnect.isGranted ||
           !statusBluetoothAdvertise.isGranted) {
-        print(statusBluetooth.isGranted);
-        print(statusBluetoothConnect.isGranted);
-        print(statusBluetoothScan.isGranted);
-        print(statusBluetoothAdvertise.isGranted);
         showDialog(
           context: context,
           builder: (context) {
@@ -75,10 +73,6 @@ class PermissionProvider with ChangeNotifier {
       }
     } else {
       if (!statusBluetooth.isGranted) {
-        print(statusBluetooth.isGranted);
-        print(statusBluetoothConnect.isGranted);
-        print(statusBluetoothScan.isGranted);
-        print(statusBluetoothAdvertise.isGranted);
         showDialog(
           context: context,
           builder: (context) {
@@ -96,8 +90,13 @@ class PermissionProvider with ChangeNotifier {
             );
           },
         );
+      } else {
+        permissionChecked = true;
+        notifyListeners();
       }
     }
+    permissionChecked = true;
+    notifyListeners();
   }
 
   Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {

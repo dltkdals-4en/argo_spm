@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:614733457343:android:385eee7afb6d2378e1230a",
         "android_client_info": {
-          "package_name": "com.fouren.agro_spm"
+          "package_name": "com.fouren.agrodoctor_spm"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "614733457343-6n14dqjjicj701rckqpbldt1qvlg9bst.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.fouren.agro_spm",
+            "package_name": "com.fouren.agrodoctor_spm",
             "certificate_hash": "da718a38adf04bd62054dd0f21a8d2dea8eedb5c"
           }
         },

@@ -39,24 +39,54 @@ class ConnectDeviceScreen extends StatelessWidget {
           steps: <Step>[
             Step(
               isActive: dc.currentStep >= 0,
-              title: Text('기기 키기'),
-              content: Container(
-                width: size.width * 2 / 3,
-                height: 200,
-                color: AppColors.gray,
-                child: Center(child: Text('분광센서 전원 세팅 이미지')),
+              title: Text('기기전원 키기'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: size.width * 2 / 3,
+                    color: AppColors.white,
+                    child: Image.asset(
+                      'assets/images/sensor_power_on.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  SmH,
+                  Text(
+                    '기기의 전원 버튼을 켜주세요',
+                    style: makeTextStyle(16, null, 'regular'),
+                  )
+                ],
               ),
             ),
             Step(
               isActive: dc.currentStep >= 0,
-              title: Text('기기 대기'),
-              content: Container(
-                child: Text('대기 상태 세팅 이미지'),
+              title: Text('연결 준비하기'),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: size.width * 2 / 3,
+                    height: 200,
+                    color: AppColors.white,
+                    child: Image.asset(
+                      'assets/images/sensor_ble_on.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  SmH,
+                  Text(
+                    '기기의 블루투스 버튼을 2초 정도 눌러주세요.\n(2초 후, pairing 표시창이 파란색으로 깜빡이는지 확인해주세요.)',
+                    style: makeTextStyle(16, null, 'regular'),
+                  )
+                ],
               ),
             ),
             Step(
               isActive: dc.currentStep >= 0,
-              title: Text('기기 연결'),
+              title: Text('기기 연결하기'),
               content: Container(
                   child: CustomButtonWidget(
                 onPressed: () {

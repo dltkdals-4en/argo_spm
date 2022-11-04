@@ -27,9 +27,7 @@ class BleConnectedWidget extends StatelessWidget {
           ),
           SmW,
           Text(
-            (!ble.bleConnected)
-                ? '기기 연결 안됨'
-                : '${ble.deviceName}',
+            (!ble.bleConnected) ? '기기 연결 안됨' : '${ble.deviceName}',
             style: makeTextStyle(16, AppColors.black, 'regular'),
           ),
         ],

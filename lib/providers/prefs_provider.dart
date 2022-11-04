@@ -15,8 +15,9 @@ class PrefsProvider with ChangeNotifier {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (spmState == 0) {
       spmState = await prefs.getInt('spmState') ?? 0;
-
-      savedDevice = await prefs.getStringList('savedDevice')![0] ?? '';
+      if(await prefs.getStringList('savedDevice') != null){
+        savedDevice = await prefs.getStringList('savedDevice')![0];
+      }
       if (savedDevice == '') {
         setSpmState(1);
       } else {
@@ -55,6 +56,10 @@ class PrefsProvider with ChangeNotifier {
   Future<void> deviceSave(String deviceName, String deviceAddress) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('savedDevice', [deviceName, deviceAddress]);
+  }
+  Future<String> getSavedDeviceAddress() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.getStringList('savedDevice')![1];
   }
 
   Future<void> getSavedDivice() async {

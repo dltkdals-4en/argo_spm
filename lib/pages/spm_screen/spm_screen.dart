@@ -28,10 +28,22 @@ class SpmScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  width: size.width * 2 / 3,
-                  height: (size.width * 2 / 3) * 2 / 3,
-                  color: AppColors.darkGrey,
-                  child: Center(child: Text('${ble.resultOM}\n${ble.resultN}\n${ble.resultP}')),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Image.asset(
+                            spm.measureImage(),
+                            fit: BoxFit.contain,
+                          ),
+                          width: size.width * 2 / 3,
+                          height: (size.width * 2 / 3) * 2 / 3,
+                        ),
+                        SmH,
+                        Text('이미지의 색상과 비슷한 색의 액상을 넣어주세요.')
+                      ],
+                    ),
+                  ),
                 ),
                 NorH,
                 // CustomButtonWidget(
