@@ -9,7 +9,9 @@ import 'package:argo_spm/providers/ble_provider.dart';
 import 'package:argo_spm/providers/permission_provider.dart';
 import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,7 +42,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   //List<Widget> _pages;
   final _pages = [
     HomePage(),
-    HomePage(),
+    // HomePage(),
     // // FavoritePage(),
     NotificationsPage(),
     SettingsPage(),
@@ -66,10 +68,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       Provider.of<AnalyzeProvider>(context, listen: false)
           .getReport();
     });
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   Provider.of<BleProvider>(context, listen: false).connectBle(
-    //       context, MediaQuery.of(context).size, PrefsProvider(), null);
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<AnalyzeProvider>(context, listen: false).makeReport(
+          );
+    });
     _arrowAnimationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _arrowAnimation = Tween<double>(begin: 0.0, end: pi / 4)
@@ -153,36 +155,27 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ],
       ),
-      floatingActionButton: AnimatedBuilder(
-        animation: _arrowAnimationController,
-        builder: (context, child) {
-          switch (prefs.spmState) {
-            case 0:
-              break;
-            case 1:
-              break;
-            case 2:
-              break;
-            default:
-              break;
-          }
-          return Transform.rotate(
-            angle: _arrowAnimation.value,
-            child: FloatingActionButton(
-              onPressed: () {
-                prefs.spmStateCheck().then((value) => _toggleFAB());
-              },
-              backgroundColor: AppColors.primary,
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 40,
-              ),
-            ),
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: AnimatedBuilder(
+      //   animation: _arrowAnimationController,
+      //   builder: (context, child) {
+      //
+      //     return Transform.rotate(
+      //       angle: _arrowAnimation.value,
+      //       child: FloatingActionButton(
+      //         onPressed: () {
+      //           prefs.spmStateCheck().then((value) => _toggleFAB());
+      //         },
+      //         backgroundColor: AppColors.primary,
+      //         child: Icon(
+      //           Icons.add,
+      //           color: Colors.white,
+      //           size: 40,
+      //         ),
+      //       ),
+      //     );
+      //   },
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         //height: 50,
         // decoration: BoxDecoration(
@@ -217,21 +210,21 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       _selectedIndex == 0 ? 'icon_home_selected' : 'icon_home',
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: NavBarItemWidget(
-                  onTap: () {
-                    _selectPage(1);
-                  },
-                  image: _selectedIndex == 1
-                      ? 'icon_favorite_selected'
-                      : 'icon_favorite',
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: SizedBox(),
-              ),
+              // Expanded(
+              //   flex: 1,
+              //   child: NavBarItemWidget(
+              //     onTap: () {
+              //       _selectPage(1);
+              //     },
+              //     image: _selectedIndex == 1
+              //         ? 'icon_favorite_selected'
+              //         : 'icon_favorite',
+              //   ),
+              // ),
+              // Expanded(
+              //   flex: 1,
+              //   child: SizedBox(),
+              // ),
               Expanded(
                 flex: 1,
                 child: NavBarItemWidget(

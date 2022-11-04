@@ -17,19 +17,10 @@ class RootPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var permission = Provider.of<PermissionProvider>(context);
     var login = Provider.of<LoginProvider>(context);
-    if(permission.permissionChecked ==false){
-      permission.checkBlePermission(context);
-      return Container(
-        color: Colors.white,
-        child: Center(
-          child: SpinKitFadingCircle(
-            color: AppColors.primary,
-          ),
-        ),
-      );
-    }else{
-      switch (login.prepareUserInfo()) {
+
+      switch (login.loginHistory) {
         case 0:
+          login.prepareUserInfo();
           return Container(
             color: Colors.white,
             child: Center(
@@ -43,9 +34,14 @@ class RootPage extends StatelessWidget {
         case 2:
           return AutoLogin();
         default:
-          return Container();
+          return Container(color: Colors.white,
+            child: Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primary,
+              ),
+            ),);
       }
-    }
+
 
 
 

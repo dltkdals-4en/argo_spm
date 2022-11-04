@@ -35,7 +35,7 @@ class AutoLogin extends StatelessWidget {
         ),
       );
     } else {
-      return StateCheck();
+      return Home();
     }
     // if (prefs.haveLoginInfo == false) {
     //   return LoginPage();

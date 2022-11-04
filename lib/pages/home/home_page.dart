@@ -53,15 +53,15 @@ class HomePage extends StatelessWidget {
                               //   },
                               //   icon: Icon(Icons.menu),
                               // ),
-                              BleConnectedWidget(
-                                image: (ble.bleConnected)
-                                    ? 'ble_connected'
-                                    : 'ble_disconnected',
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(Routes.pairing);
-                                },
-                              ),
+                              // BleConnectedWidget(
+                              //   image: (ble.bleConnected)
+                              //       ? 'ble_connected'
+                              //       : 'ble_disconnected',
+                              //   onTap: () {
+                              //     Navigator.of(context)
+                              //         .pushNamed(Routes.pairing);
+                              //   },
+                              // ),
                             ],
                           ),
                         ),

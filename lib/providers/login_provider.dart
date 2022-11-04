@@ -10,7 +10,7 @@ class LoginProvider with ChangeNotifier {
   TextEditingController pw = TextEditingController();
   bool pwObscure = true;
   bool isSignIn = false;
-
+  String userPw ='';
   void changePwObscure() {
     (pwObscure) ? pwObscure = false : pwObscure = true;
     print(pwObscure);
@@ -42,14 +42,16 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  int prepareUserInfo() {
+  Future<int> prepareUserInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    userPw = await prefs.getString('savedPw')??'';
     print('uid : ${auth.currentUser?.uid}');
-    if (auth.currentUser?.uid == null) {
+    if (auth.currentUser?.uid == null||userPw == '') {
       loginHistory = 1;
-
+notifyListeners();
     } else {
       loginHistory = 2;
-
+notifyListeners();
     }
     return loginHistory;
   }
@@ -57,10 +59,10 @@ class LoginProvider with ChangeNotifier {
   Future<void> autoSignIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = auth.currentUser!.email!;
-    String password = await prefs.getString('savedPw')!;
+    userPw = await prefs.getString('savedPw')!;
     try {
       await auth
-          .signInWithEmailAndPassword(email: email, password: password)
+          .signInWithEmailAndPassword(email: email, password: userPw)
           .then((value) {
         print('login Success');
         isSignIn = true;
