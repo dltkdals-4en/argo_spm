@@ -73,21 +73,25 @@ class LoginProvider with ChangeNotifier {
 
   Future<bool> signIn(String email, String pw) async {
     try {
-      final credential = await auth
+      await auth
           .signInWithEmailAndPassword(email: email, password: pw)
           .then((value) {
         isSignIn = true;
         notifyListeners();
+      }).onError((error, stackTrace) {
+        print('signIn${error}');
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
+      }else{
+        print('firebase : $e');
       }
       notifyListeners();
     } catch (e) {
-      print(e);
+      print('catch $e');
       notifyListeners();
       return false;
     }
