@@ -1,3 +1,4 @@
+import 'package:argo_spm/pages/login/widgets/join_inquiry_dialog.dart';
 import 'package:argo_spm/providers/login_provider.dart';
 import 'package:argo_spm/providers/prefs_provider.dart';
 import 'package:argo_spm/routes/routes.dart';
@@ -24,11 +25,18 @@ class SignInButtonWidget extends StatelessWidget {
           await login
               .signIn(login.email.text, login.pw.text)
               .then((value) async {
-            await prefs
-                .saveEmailAndPw(login.email.text, login.pw.text)
-                .then((value) {
-              Navigator.of(context).pushNamed(Routes.home);
-            });
+            if (login.isSignIn) {
+              await prefs
+                  .saveEmailAndPw(login.email.text, login.pw.text)
+                  .then((value) {
+                Navigator.of(context).pushNamed(Routes.home);
+              });
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) => JoinInquiryDialog(),
+              );
+            }
           });
         }
       },
