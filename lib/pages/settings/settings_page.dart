@@ -1,6 +1,9 @@
+import 'package:argo_spm/providers/analyze_provider.dart';
+import 'package:argo_spm/utils/db_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../components/section_widget.dart';
 import '../../constants/constants.dart';
 import '../../routes/routes.dart';
@@ -43,6 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var analyze = Provider.of<AnalyzeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('settings'.tr()),
@@ -172,7 +176,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             SettingsItem(
               title: 'user_guide'.tr(),
-              onTap: () {
+              onTap: () async{
+                await analyze.deleteAll();
                 // _launched = _launchInBrowser(fourenExternalLink.manual);
               },
             ),

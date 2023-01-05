@@ -636,7 +636,7 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text('재배시설 : ' + saveData.soilType.toString()),
+                  Text('재배시설 : ' + 'soil_type_${saveData.soilType}'.tr()),
                   Text('재배면적 : ' + saveData.soilArea.toString()),
                   Text('재배작물 : ' + saveData.dataCrop.tr()),
                 ],

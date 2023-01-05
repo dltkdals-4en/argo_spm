@@ -11,4 +11,9 @@ class AnalyzeProvider with ChangeNotifier {
     reportList = await DBHelper().getAllReports();
     notifyListeners();
   }
+  Future<void> deleteAll() async {
+    await DBHelper().deleteAllReports();
+    getReport();
+    notifyListeners();
+  }
 }
