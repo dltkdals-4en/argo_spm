@@ -417,7 +417,7 @@ class ReportDetailsPage extends StatelessWidget {
                       },
                     ),
                     Container(
-                      height: 415,
+                      // height: 415,
                       color: Color(0xFFFAFAFA),
                       child: Card(
                         margin: const EdgeInsets.all(16.0),
@@ -479,20 +479,21 @@ class ReportDetailsPage extends StatelessWidget {
   SfCircularChart _buildCustomizedRadialBarChart() {
     final dataSources = <ChartSampleData>[
       ChartSampleData(
-          x: 'N(질소)',
-          y: 18.71,
-          text: '10%',
+          x: 'N (질소)',
+          y: 22.45          ,
+          text: '100%',
           pointColor: const Color.fromRGBO(69, 186, 161, 1.0)),
       ChartSampleData(
           x: 'P(인)',
-          y: 30.49,
-          text: '10%',
+          y: 74.6,
+          text: '100%',
           pointColor: const Color.fromRGBO(230, 135, 111, 1.0)),
       ChartSampleData(
-          x: 'K(칼리)',
-          y: 16.95,
+          x: 'OM (유기물)',
+          y: 132,
           text: '100%',
           pointColor: const Color.fromRGBO(145, 132, 202, 1.0)),
+
     ];
 
     final _annotationSources = <CircularChartAnnotation>[
@@ -525,7 +526,7 @@ class ReportDetailsPage extends StatelessWidget {
         radius: '0%',
         widget: Container(
           child: Text(
-            'K',
+            'OM',
             style: TextStyle(color: const Color.fromRGBO(145, 132, 202, 1.0)),
           ),
         ),
@@ -560,7 +561,7 @@ class ReportDetailsPage extends StatelessWidget {
             (String name, dynamic series, dynamic point, int index) {
           return Container(
               height: 50,
-              width: 130,
+              width: 150,
               child: Row(children: <Widget>[
                 Container(
                     height: 55,
@@ -586,7 +587,7 @@ class ReportDetailsPage extends StatelessWidget {
                       ],
                     )),
                 Container(
-                    width: 55,
+                    width: 80,
                     child: Text(
                       point.x,
                       style: TextStyle(
@@ -608,7 +609,7 @@ class ReportDetailsPage extends StatelessWidget {
               height: 100,
               child: Center(
                   child: Text(
-                'ph 5.3',
+                '분석 결과',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -628,17 +629,17 @@ class ReportDetailsPage extends StatelessWidget {
     final chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'N (질소)',
-          y: 62.70,
+          y: 22.45          ,
           text: '100%',
           pointColor: const Color.fromRGBO(69, 186, 161, 1.0)),
       ChartSampleData(
-          x: 'P (인)',
-          y: 29.20,
+          x: 'P(인)',
+          y: 74.6,
           text: '100%',
           pointColor: const Color.fromRGBO(230, 135, 111, 1.0)),
       ChartSampleData(
-          x: 'K (칼리)',
-          y: 85.20,
+          x: 'OM (유기물)',
+          y: 132,
           text: '100%',
           pointColor: const Color.fromRGBO(145, 132, 202, 1.0)),
     ];
@@ -677,22 +678,22 @@ List<T5Bill> getListData() {
   var bill = T5Bill();
   bill.name = 'N';
   bill.icon = 'assets/images/light_bulb.svg';
-  bill.isPaid = false;
-  bill.date = '18.71';
+  bill.isPaid = true;
+  bill.date = '6.23';
   list.add(bill);
 
   var bill1 = T5Bill();
   bill1.name = 'P';
   bill1.icon = 'assets/images/light_bulb.svg';
-  bill1.isPaid = true;
-  bill1.date = '30.49';
+  bill1.isPaid = false;
+  bill1.date = '46.57';
   list.add(bill1);
 
   var bill2 = T5Bill();
-  bill2.name = 'K';
+  bill2.name = 'OM';
   bill2.icon = 'assets/images/light_bulb.svg';
   bill2.isPaid = true;
-  bill2.date = '16.96';
+  bill2.date = '4.06';
   list.add(bill2);
   return list;
 }
@@ -764,30 +765,30 @@ class _StylingDataGridSource extends DataGridSource {
   // _Employee data sets
   List<_Employee> getEmployees() {
     final employeeData = <_Employee>[];
-    employeeData.add(_Employee(
-      'pH',
-      5.32,
-    ));
-    employeeData.add(_Employee(
-      'EC',
-      1.04,
-    ));
+    // employeeData.add(_Employee(
+    //   'pH',
+    //   5.32,
+    // ));
+    // employeeData.add(_Employee(
+    //   'EC',
+    //   1.04,
+    // ));
     employeeData.add(_Employee(
       'NO3' + String.fromCharCode($sup2),
-      12.23,
+      6.23,
     ));
     employeeData.add(_Employee(
-      '유효인산',
-      12.23,
+      'P(유효인산)',
+      46.57,
     ));
     employeeData.add(_Employee(
-      'K',
-      0,
+      'OM(유기물)',
+      4.06,
     ));
-    employeeData.add(_Employee(
-      'Ca+Mg',
-      0,
-    ));
+    // employeeData.add(_Employee(
+    //   'Ca+Mg',
+    //   0,
+    // ));
     return employeeData;
   }
 }

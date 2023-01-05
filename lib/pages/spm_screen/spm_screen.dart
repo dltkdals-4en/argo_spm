@@ -19,7 +19,7 @@ class SpmScreen extends StatelessWidget {
       children: [
         AlertDialog(
           title: Center(
-            child: Text('${spm.dialogIndex + 1}/3단계 측정하기'),
+            child: (spm.dialogIndex<3)?Text('${spm.dialogIndex + 1}/3단계 측정하기'):Text('측정 완료하기'),
           ),
 
           content: SingleChildScrollView(

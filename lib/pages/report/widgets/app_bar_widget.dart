@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/constants.dart';
@@ -52,7 +54,9 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),
-            onPressed: () {},
+            onPressed: () {
+
+            },
           ),
           IconButton(
             icon: Icon(

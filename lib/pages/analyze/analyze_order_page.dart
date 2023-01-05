@@ -316,6 +316,10 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
                   } else if (_currentStep == 2) {
                     saveData.soilArea =
                         int.parse(_areaController.value.text.trim());
+                    if(saveData.dataCrop ==''|| saveData.dataCrop == null){
+                      saveData.dataCrop= 'crop_strawberry';
+                    }
+                    print(saveData.dataCrop);
                     _currentStep = _currentStep + 1;
                   }
                   // else if (_currentStep == 3) {
@@ -643,7 +647,26 @@ class _AnalyzeOrderPageState extends State<AnalyzeOrderPage> {
               ElevatedButton(
                 onPressed: () {
                   Report inputReport =
-                  reports[Random().nextInt(reports.length)];
+                  Report(
+                    title: '포이엔 리포트 ${DateFormat('yyMMdd').format(DateTime.now())}',
+                    weatherID: 800,
+                    cropKey: saveData.dataCrop,
+                    address: 'Seoul',
+                    soilType: saveData.soilType,
+                    soilArea: saveData.soilArea,
+                    gpsLat: '123.1232332',
+                    gpsLong: '123.1232332',
+                    score: 14,
+                    isFavorite: 1,
+                    element0: '74cc7b',
+                    element1: '26a0d2',
+                    element2: 'dfeaff',
+                    element3: '4191e0',
+                    element4: 'bd872f',
+                    element5: 'a36617',
+                    element6: '',
+                    element7: '',
+                  );
                   DBHelper().createData(inputReport);
                   analyze.getReport();
                   _initialData();
